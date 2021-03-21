@@ -18,6 +18,14 @@ enum WeaponsSlot
     Slot_NVGs           = 5,    /** espacio de armas para NVGs. */
 }
 
+public void OnPluginStart(){
+    RegConsoleCmd("sm_lrtop", Command_LRTopListMenu, "SpecialRounds");
+}
+
+public Action Command_LRTopListMenu(int client, int arg)
+{
+	return Plugin_Handled;
+}
 
 stock void WeaponsRemoveAllClientWeapons(int client, bool weaponsdrop)
 {
