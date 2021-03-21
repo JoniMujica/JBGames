@@ -1,11 +1,11 @@
 #include <sourcemod>
 #include <cstrike>
 #include <sdktools>
+#include <lastrequest>
 #include <sdkhooks>
 
 #define WEAPONS_SLOTS_MAX 5
 #define WEAPONS_MAX_LENGTH 32
-
 
 enum WeaponsSlot
 {
@@ -19,15 +19,15 @@ enum WeaponsSlot
 }
 
 
-stock WeaponsRemoveAllClientWeapons(client, bool:weaponsdrop)
+stock void WeaponsRemoveAllClientWeapons(int client, bool weaponsdrop)
 {
     // Get a list of all client's weapon indexes.
-    new weapons[WeaponsSlot];
+    int weapons[WeaponsSlot];
     WeaponsGetClientWeapons(client, weapons);
 
     // Loop through array slots and force drop.
     // x = weapon slot.
-    for (new x = 0; x < WEAPONS_SLOTS_MAX; x++)
+    for (int x = 0; x < WEAPONS_SLOTS_MAX; x++)
     {
         // If weapon is invalid, then stop.
         if (weapons[x] == -1)
@@ -63,24 +63,24 @@ stock WeaponsRemoveAllClientWeapons(client, bool:weaponsdrop)
     // Give zombie a new knife. (If you leave the old one there will be glitches with the knife positioning)
 }
 
-stock WeaponsGetClientWeapons(client, weapons[WeaponsSlot])
+stock void WeaponsGetClientWeapons(int client, int weapons[WeaponsSlot])
 {
     // x = Weapon slot.
-    for (new x = 0; x < WEAPONS_SLOTS_MAX; x++)
+    for (int x = 0; x < WEAPONS_SLOTS_MAX; x++)
     {
         weapons[x] = GetPlayerWeaponSlot(client, x);
     }
 }
 
-stock WeaponsForceClientDrop(client, weapon)
+stock void WeaponsForceClientDrop(int client, int weapon)
 {
     // Force client to drop weapon.
     CS_DropWeapon(client, weapon, true, false);
 }
 
-stock WeaponsRemoveClientGrenades(client, bool:weaponsdrop)
+stock void WeaponsRemoveClientGrenades(int client, bool weaponsdrop)
 {
-    new grenade = GetPlayerWeaponSlot(client, _:Slot_Projectile);
+    int grenade = GetPlayerWeaponSlot(client, _:Slot_Projectile);
     while (grenade != -1)
     {
         // Check if we drop or strip the grenade.
